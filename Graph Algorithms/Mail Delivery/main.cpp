@@ -18,12 +18,9 @@ int deg[maxN];
 
 bool vis[maxM];
 
-list<int> path;
-list<int>::iterator it;
+vector<int> path;
 
 void DFS(int u) {
-    it = next(path.insert(it, u));
-    
     while (!adj[u].empty()) {
         auto v = adj[u].back();
         adj[u].pop_back();
@@ -32,8 +29,8 @@ void DFS(int u) {
         
         vis[v.i] = true;
         DFS(v.u);
+        path.push_back(u);
     }
-    --it;
 }
 
 bool have_euler_cycle() {
@@ -60,7 +57,7 @@ int main() {
     }
 
 
-    it = path.end();
+    path.push_back(1);
     DFS(1);  
 
     if (!have_euler_cycle())
