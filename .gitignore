@@ -1,4 +1,6 @@
 *.out
+*.txt
+makefile
 .vscode/
 /template.cpp
 main
