@@ -3,4 +3,5 @@ The problems set can be found at the following link:
 [CSES Prolems set](https://cses.fi/problemset/list/)  
   
 # Note on the solutions:  
-Grid Path's solution is kind of "i have no idea what's going on".
+The solution of "Introduction/Grid Path" gas some weird optimaztion.
+I don't really understand the solution of "Graph Algorithms/Mail Delivery" and "Graph Algorithms/Teleporters Path".  
