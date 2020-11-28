@@ -41,4 +41,4 @@ int main(int argc, char* argv[]) {
     cout << head.size() - 1 << '\n';
     for (int i = 1; i < head.size(); ++i)
         cout << head[i - 1] << ' ' << head[i] << '\n';
-
+}
