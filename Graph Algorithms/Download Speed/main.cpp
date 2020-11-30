@@ -29,11 +29,9 @@ bool find_flow() {
     queue<int> q;
     q.push(1);
  
-    // cout << "find flow:\n";
     while (q.size()) {
         int u = q.front();
         q.pop();
-        // cout << "u: " << u << '\n';
  
         if (u == n)
             return true;
