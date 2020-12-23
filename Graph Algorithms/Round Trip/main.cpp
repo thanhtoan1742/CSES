@@ -15,12 +15,12 @@ int visited[maxN];
 vector<int> path;
 
 bool dfs(int u) {
-    visited[u] = cur++;
+    visited[u] = path.size() + 1;
     path.push_back(u);
 
     for (int v : adj[u])
         if (visited[v]) {
-            if (path.size() - visited[v] >= 3) {
+            if (path.size() - visited[v] + 1>= 3) {
                 path.push_back(v);
                 return true;
             }
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 
     for (int i = 1; i <= n; ++i)
         if (!visited[i]) {
-            cur = 0;
+            cur = 1;
             if (dfs(i)) {
                 reverse(path.begin(), path.end());
                 while (path.back() != path[0]) path.pop_back();

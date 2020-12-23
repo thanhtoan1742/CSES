@@ -8,4 +8,4 @@ filein: main
 	./main < input.txt
 
 main: main.cpp 
-	g++ -g -O2 -Wall -std=gnu++17 -static main.cpp -o main
+	g++ -g -O2 -Wall -std=gnu++17 main.cpp -o main
