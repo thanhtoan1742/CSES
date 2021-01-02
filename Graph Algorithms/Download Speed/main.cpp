@@ -3,102 +3,87 @@
 using namespace std;
 const int maxN = 500 + 100;
 const int maxM = 1000 + 100;
-const int maxFlow = 2e9;
+const long long maxFlow = 1e18;
  
 #define sqr(x) ((x) * (x))
 #define maximize(a, b) (a) = max((a), (b))
 #define minimize(a, b) (a) = min((a), (b))
  
 struct Edge {
-    int u, v, c, f;
- 
-    Edge(int _u = 0, int _v = 0, int _c = 0, int _f = 0)
-    : u(_u), v(_v), c(_c), f(_f) {
-    }
+    int u, v, irev;
+    long long c;
 };
  
 int n, m;
-Edge e[maxM];
+Edge e[maxM*2];
 vector<int> adj[maxN];
  
 int lev[maxN];
  
+vector<int> path;
+ 
 bool find_flow() {
     fill(lev + 1, lev + 1 + n, 0);
-    lev[1] = 1;
     queue<int> q;
+    lev[1] = 1;
     q.push(1);
  
     while (q.size()) {
         int u = q.front();
         q.pop();
  
-        if (u == n)
-            return true;
+        if (u == n) 
+            return 1;
  
-        for (int i: adj[u]) {
-            if (i > 0 && e[i].f < e[i].c && !lev[e[i].v]) {
+        for (int i: adj[u])
+            if (e[i].c && !lev[e[i].v]) {
                 lev[e[i].v] = lev[u] + 1;
                 q.push(e[i].v);
             }
- 
-            if (i < 0 && e[-i].f > 0 && !lev[e[-i].u]) {
-                lev[e[-i].u] = lev[u] + 1;
-                q.push(e[-i].u);
-            }
-        }
     }
  
-    return false;
+    return 0; 
 }
  
-int add_flow(int u, int resource) {
-    // cerr << u << '\n';
+long long add_flow(int u = 1, long long inflow = maxFlow) {
     if (u == n) 
-        return resource;
+        return inflow;
+    if (inflow == 0)
+        return 0;
+
+    long long og_inflow = inflow;
  
-    int flow = 0;
-    for (int i: adj[u]) {
-        int t = 0;
-        if (i > 0 && lev[u] + 1 == lev[e[i].v]) {
-            t = add_flow(e[i].v, min(resource, e[i].c - e[i].f));
-            e[i].f += t;
+    for (int i: adj[u])
+        if (lev[e[i].v] == lev[u] + 1) {
+            long long t = add_flow(e[i].v, min(inflow, e[i].c));
+            e[i].c -= t;
+            e[e[i].irev].c += t;
+            inflow -= t;
         }
  
-        if (i < 0 && lev[u] + 1 == lev[e[-i].u]) {
-            t = add_flow(e[-i].u, min(resource, e[-i].f));
-            e[-i].f -= t;
-        }
- 
-        resource -= t;
-        flow += t;
-    }
- 
-    return flow;
+    return og_inflow - inflow;
 }
- 
-long long max_flow() {
-    long long flow = 0;
- 
-    while (find_flow()) 
-        flow += add_flow(1, maxFlow);        
- 
-    return flow;
-}
- 
+
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
  
     cin >> n >> m;
-    for (int i = 1; i <= m; ++i) {
-        cin >> e[i].u >> e[i].v >> e[i].c;
-        e[i].f = 0;       
- 
-        adj[e[i].u].push_back(i);
-        adj[e[i].v].push_back(-i);
+    for (int i = 0; i < m; ++i) {
+        int x, y;
+        long long c;
+        cin >> x >> y >> c;
+        
+        e[i] = {x, y, i + m, c};
+        e[i + m] = {y, x, i, 0};
+        adj[x].push_back(i);
+        adj[y].push_back(i + m);
     }
  
-    cout << max_flow() << '\n';
+    long long flow = 0;
+    while (find_flow())
+        flow += add_flow();
+    
+    cout << flow << '\n';
 }
