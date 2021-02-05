@@ -7,7 +7,7 @@
 using namespace std;
 const int maxN = 2e5 + 100;
 
-unordered_map<long long, int> m;
+map<long long, int> m;
 
 int main(int argc, char* argv[]) {
     cin.tie(nullptr);
@@ -16,7 +16,6 @@ int main(int argc, char* argv[]) {
     int n;
     long long x;
     cin >> n >> x;
-    m.reserve(n);
 
     long long res = 0;
     long long s = 0;
@@ -29,10 +28,7 @@ int main(int argc, char* argv[]) {
         auto it = m.find(s - x);
         if (it != m.end()) res += it->second;
 
-        it = m.find(s);
-        if (it == m.end()) m[s] = 1;
-        else it->second++;
-
+        m[s]++;
     }
     cout << res << '\n';
 }
