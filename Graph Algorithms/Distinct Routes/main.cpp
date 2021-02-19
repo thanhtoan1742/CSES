@@ -74,8 +74,9 @@ void print_flow_path(int u = 1) {
 
     for (int i: adj[u]) 
         if (i < m && !e[i].c) {
-            print_flow_path(e[i].v);
             e[i].c = 1;
+            e[e[i].irev].c = 1;
+            print_flow_path(e[i].v);
             if (u != 1)
                 break;
         }
