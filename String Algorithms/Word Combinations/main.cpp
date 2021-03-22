@@ -11,80 +11,49 @@
  
 using namespace std;
 using namespace __gnu_pbds;
-const int maxN = 5e3 + 100;
-const int maxK = 1e5 + 100;
-const ll MOD = 1e9 + 7;
-
 template<class T> using indexed_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-struct Hashed {
-    int len;
-    ll val;
+const int maxN = 5000 + 10;
+const ll MOD = 1e9 + 7;
+const ll base = 263;
 
-    Hashed(int _len = 0, ll _val = 0)
-    : len(_len), val(_val) {
-    }
+set<ll> se[maxN];
+int f[maxN];
 
-    inline bool operator==(const Hashed& other) const & {
-        return len == other.len && val == other.val;
-    }
-};
-
-ll Hashing[maxK];
-
-int n;
-string s;
-ll hs[maxN];
-
-int k;
-Hashed a[maxK];
-
-ll f[maxN];
-
-Hashed Hash(const string& s, ll* h = Hashing) {
-    Hashing[0] = 0;
-    for (int i = 1; i <= s.size(); ++i) {
-        ll a = s[i - 1] - 'a';
-    }
-        
-    return Hashed();
-}
-
-Hashed getHash(ll* h, int l, int r) {
-    return Hashed();
-}
-
-ll dp() {
-    f[0] = 0;
-    for (int i = 0; i < n; ++i) {
-        f[i + 1] = 0;
-        for (int j = 0; j < k; ++j)
-            if (i + 1 >= a[i].len && a[i] == getHash(hs, i - a[i].len + 1, i)) {
-                f[i + 1] += f[i - a[j].len + 1];
-                if (f[i + 1] >= MOD)
-                    f[i + 1] -= MOD;
-            }
-    }
-
-    return f[n];
+ll hashed(const string& a) {
+    ll h = 0;
+    for (int i = 0; i < a.size(); ++i)
+        h = (h*base + a[i])%MOD;
+    return h;
 }
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+ 
+    string s;
     cin >> s;
-    n = s.size();
-    Hash(s, hs);
 
-    cin >> k;
-    for (int i = 0; i < k; ++i) {
-        string t;
-        cin >> t;
-        a[i] = Hash(t); 
+    int n;
+    cin >> n;
+    while (n--) {
+        string a;
+        cin >> a;
+        if (a.size() > s.size())
+            continue;
+        se[a.size()].insert(hashed(a));
     }
 
-    ll res = dp();
-    cout << res << '\n';
+    n = s.size();
+    f[0] = 1;
+    for (int i = 0; i < n; ++i) {
+        ll h = 0;
+        for (int j = i; j < n; ++j) {
+            h = (h*base + s[j])%MOD;
+            if (se[j - i + 1].count(h))
+                f[j + 1] = (f[j + 1] + f[i])%MOD;
+        }
+    }
+    cout << f[n] << "\n"; 
 }
