@@ -8,3 +8,4 @@ I don't really understand the solution of "Graph Algorithms/Mail Delivery" and "
 I took the formula of "Mathematics/Sum of Divisors" from OEIS.  
 I copied the solution to "Mathematics/Christmas Party" from Wiliam Lin CSES stream.  
 "Mathematics/Counting Necklaces" is not AC yet.
+I use Booth's algorithm in "String Algorithms/Minimal Rotation" and i don't really understand the algorithm itself.
