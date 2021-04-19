@@ -58,7 +58,7 @@ int main() {
     cin.tie(nullptr);
     cout.tie(nullptr);
 
-    cin >> n;
+    cin >> n >> k;
 
     for (int i = 1; i <= n; ++i)
         add_fen(i, 1);
