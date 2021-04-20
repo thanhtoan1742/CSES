@@ -42,13 +42,14 @@ struct block{
         }
 
         offset = 0;
-        sort(a.begin(), a.end());
+        // sort(a.begin(), a.end());
     }
 
     int get(int val, int l = 0, int r = size - 1) {
         if (l == 0 && r == size - 1) {
             ar<int, 2> t = {val - offset, maxN};
-            return upper_bound(a.begin(), a.end(), t) - a.begin();
+            // return upper_bound(a.begin(), a.end(), t) - a.begin();
+            return 0;
         }
 
         update(0);
@@ -73,6 +74,7 @@ ll res;
  
 void add(int l, int r, int val) {
     l--; r--;
+    // cerr << "add: " << l << " " << r << " " << val << "\n";
     int bl = l/block::size;
     int br = r/block::size;
     l %= block::size;
@@ -91,6 +93,7 @@ void add(int l, int r, int val) {
 
 int get(int l, int r, int val) {
     l--; r--;
+    // cerr << "get: " << l << " " << r << " " << val << "\n";
     int bl = l/block::size;
     int br = r/block::size;
     l %= block::size;
@@ -105,18 +108,17 @@ int get(int l, int r, int val) {
     s += blk[br].get(val, 0, r);
     for (int i = bl + 1; i < br; ++i)
         s += blk[i].get(val);
+
     return s;
 }
 
 void DFS(int u = 1, int p = 0) {
+    // cerr << u << "\n";
     b[u] = e[u] = pos++;
 
     if (b[u] > 1) {
-        // qu.emplace_back(1, 1, b[u] - 1, 1);
         add(1, b[u] - 1, 1);
-        // qu.emplace_back(0, 1, b[u] - 1, k1);
         res -= get(1, b[u] - 1, k1);
-        // qu.emplace_back(0, 1, b[u] - 1, k2);
         res += get(1, b[u] - 1, k2);
     }
 
@@ -129,16 +131,14 @@ void DFS(int u = 1, int p = 0) {
     }
 
     if (b[u] > 1) {
-        // qu.emplace_back(1, b[u], e[u], 1);
         add(b[u], e[u], 1);
-        // qu.emplace_back(1, 1, b[u] - 1, -1);
         add(1, b[u] - 1, -1);
     }
 }
 
 
 int main() {
-    freopen("input.txt", "r", stdin);
+    // freopen("input.txt", "r", stdin);
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
@@ -158,7 +158,6 @@ int main() {
         sz -= len;
         blk.emplace_back(len);
     }
-    ll res = 0;
     DFS();
 
     cout << res << "\n";
