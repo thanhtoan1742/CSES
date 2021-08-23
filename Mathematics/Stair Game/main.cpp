@@ -13,6 +13,7 @@ using namespace __gnu_pbds;
 template<class T> using indexed_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 int main() {
+    // coins in even posistion (0 based index) are useless.
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
@@ -20,37 +21,19 @@ int main() {
     int ntest;
     cin >> ntest;
     while (ntest--) {
-        int n, a;
-        cin >> n >> a;
-        n--;
+        int n;
+        cin >> n;
 
         int res = 0;
-        while (n--) {
+        for (int i = 0; i < n; ++i) {
+            int a;
             cin >> a;
-            res ^= a > 1;
+            if (i&1)
+                res ^= a;
         }
-
-        if (!res)
-            cout << "second\n";
-        else
+        if (res)
             cout << "first\n";
+        else
+            cout << "second\n";
     }
 }
-
-// 0 L
-// 1 L
-// 2 L
-// x 0 L
-// x 1 W
-// x 2 W
-// x 3 W
-// x 4 W
-// x 0 1 W
-// x 1 1 L
-// x 0 2 W
-// x 2 1 W
-// x 1 2 L
-// x 1 3 W
-// x 3 1 W
-// x 3 2 W
-// x 3 3 W

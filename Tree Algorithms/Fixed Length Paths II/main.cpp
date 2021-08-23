@@ -48,7 +48,7 @@ struct block{
     int get(int val, int l = 0, int r = size - 1) {
         if (l == 0 && r == size - 1) {
             ar<int, 2> t = {val - offset, maxN};
-            // return upper_bound(a.begin(), a.end(), t) - a.begin();
+            return upper_bound(a.begin(), a.end(), t) - a.begin();
             return 0;
         }
 
