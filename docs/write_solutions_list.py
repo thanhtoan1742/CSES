@@ -17,6 +17,8 @@ html = """\
 <body>
 
 <h1>CSES Solutions Set</h1>
+<p>This is a list of solved problems.</p>
+<h2><a href="https://github.com/thanhtoan1742/CSES">Github page for codes.</a></h2>
 """
 
 def wrap_html(text, wrapper):
