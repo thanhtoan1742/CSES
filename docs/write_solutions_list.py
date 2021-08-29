@@ -19,19 +19,19 @@ html = """\
 <h1>CSES Solutions Set</h1>
 <p>This is a list of solved problems.</p>
 <h2><a href="https://github.com/thanhtoan1742/CSES">Github page for codes.</a></h2>
+
 """
 
 def wrap_html(text, wrapper):
 	return "<{0}>{1}</{0}>".format(wrapper, text)
 
 def problem_to_html(prob):
-	html = wrap_html(prob, "li")
-	return " "*4 + html + "\n"
+	return f"    <li class=\"task\">{prob}</li>\n"
 
 first = True
 def category_to_html(cat):
 	global first
-	html = f"<h2>{cat}<h2>\n<ul>\n"
+	html = f"<h2>{cat}<h2>\n<ul class=\"task-list\">\n"
 	if not first:
 		html = "</ul>\n\n" + html
 	first = False
