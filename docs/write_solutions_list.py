@@ -22,8 +22,8 @@ html = """\
 
 """
 
-def wrap_html(text, wrapper):
-	return "<{0}>{1}</{0}>".format(wrapper, text)
+def wrap_html(text, tag, attributes = ""):
+	return "<{0} {2}>{1}</{0}>".format(tag, text, attributes)
 
 def problem_to_html(prob):
 	return f"    <li class=\"task\">{prob}</li>\n"
