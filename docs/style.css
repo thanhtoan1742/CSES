@@ -5,10 +5,8 @@
 body {
     font-family: verdana, sans-serif;
     color: #000;
-	margin: 10px;
 	padding: 0;
 	width: 100%;
-	max-width: 652.8px;
 }
 
 h1 {
@@ -19,21 +17,12 @@ h2 {
 	font-size: medium;
 }
 
-.task-list {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	border-top: 1px solid gray;
+div.task-list {
+	float: left;
+	width: 300px;
 }
 
-.task-list > li {
-    display: flex;
-    line-height: 1.6;
-    border-bottom: 1px solid gray;
-    overflow: hidden;
-}
-
-li {
+li.task {
 	font-size: normal;
 	font-weight: normal;
 }

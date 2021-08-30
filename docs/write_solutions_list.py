@@ -1,9 +1,54 @@
+from genericpath import isdir
 import os
-from os import walk
-from os import path as P
+from os import path as P, walk
 
-sol_path = P.abspath(P.join(P.dirname(__file__), '..'))
-remove_list = ["docs", ".git"]
+
+
+def wrap_html(text, tag, attributes = ""):
+	return "<{0} {2}>{1}</{0}>".format(tag, text, attributes)
+
+def extract_category_task(dir):
+	dir = dir[dir.find("CSES") + len("CSES/"):]
+	if "/" in dir:
+		return dir.split("/")
+	else:
+		return dir, None
+
+
+ignored_list = ["docs", ".git"]
+def generate_task_list_html(dir):
+	if not P.isdir(dir):
+		return ""
+
+	child_dirs = os.listdir(dir)
+
+	category, task = extract_category_task(dir)
+	if category == "":
+		html = ""
+	else:
+		if task == None:
+			html = wrap_html(category, "h2")
+			html += "<ul>"
+		else:
+			html = wrap_html(task, "li", "class=task")
+
+	for child_dir in child_dirs:
+		if child_dir in ignored_list:
+			continue
+
+		html += generate_task_list_html(P.join(dir, child_dir))
+
+		
+	if category != "" and task == None:
+		html += "</ul>"
+		html = wrap_html(html, "div", "class=task-list")
+	return html
+
+
+
+
+task_dir = P.abspath(P.join(P.dirname(__file__), '..'))
+
 html = """\
 <!DOCTYPE html>
 <html lang="en">
@@ -21,45 +66,10 @@ html = """\
 <h2><a href="https://github.com/thanhtoan1742/CSES">Github page for codes.</a></h2>
 
 """
+html += generate_task_list_html(task_dir)
+html += """
 
-def wrap_html(text, tag, attributes = ""):
-	return "<{0} {2}>{1}</{0}>".format(tag, text, attributes)
-
-def problem_to_html(prob):
-	return f"    <li class=\"task\">{prob}</li>\n"
-
-first = True
-def category_to_html(cat):
-	global first
-	html = f"<h2>{cat}<h2>\n<ul class=\"task-list\">\n"
-	if not first:
-		html = "</ul>\n\n" + html
-	first = False
-	return html
-
-
-for root, dirs, files in walk(sol_path):
-	r = root[root.find("CSES"):]
-	if r == "CSES":
-		for rem in remove_list:
-			if rem in dirs:
-				dirs.remove(rem)
-
-		continue
-
-	r = r[5:]
-	if "/" in r:
-		prob = r[r.find("/") + 1:]
-		html_elem = problem_to_html(prob)
-	else:
-		cat = r
-		html_elem = category_to_html(cat)
-
-	html += html_elem
-
-html += "</ul>\n\n</body>\n</html>"
-print(html)
-
-	# print(dirs)
-	# print(files)
-
+</body>
+</html>
+"""
+open("index.html", "w+").write(html)
