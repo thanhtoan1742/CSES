@@ -17,12 +17,17 @@ h2 {
 	font-size: medium;
 }
 
-div.task-list {
-	float: left;
-	width: 300px;
+.task-list-grid {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
 }
 
-li.task {
+.task-list:nth-child(odd) {
+	/* background-color: rgb(233, 233, 233); */
+}
+
+.task {
 	font-size: normal;
 	font-weight: normal;
 }

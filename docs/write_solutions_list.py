@@ -42,6 +42,8 @@ def generate_task_list_html(dir):
 	if category != "" and task == None:
 		html += "</ul>"
 		html = wrap_html(html, "div", "class=task-list")
+	if category == "":
+		html = wrap_html(html, "div", "class=task-list-grid")
 	return html
 
 
