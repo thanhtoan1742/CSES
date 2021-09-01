@@ -5,46 +5,47 @@ from os import path as P, walk
 
 
 def wrap_html(text, tag, attributes = ""):
-	return "<{0} {2}>{1}</{0}>".format(tag, text, attributes)
+    return "<{0} {2}>{1}</{0}>".format(tag, text, attributes)
 
 def extract_category_task(dir):
-	dir = dir[dir.find("CSES") + len("CSES/"):]
-	if "/" in dir:
-		return dir.split("/")
-	else:
-		return dir, None
+    dir = dir[dir.find("CSES") + len("CSES/"):]
+    if "/" in dir:
+        return dir.split("/")
+    else:
+        return dir, None
 
 
 ignored_list = ["docs", ".git"]
 def generate_task_list_html(dir):
-	if not P.isdir(dir):
-		return ""
+    if not P.isdir(dir):
+        return ""
 
-	child_dirs = os.listdir(dir)
+    child_dirs = os.listdir(dir)
+    child_dirs.sort()
 
-	category, task = extract_category_task(dir)
-	if category == "":
-		html = ""
-	else:
-		if task == None:
-			html = wrap_html(category, "h2")
-			html += "<ul>"
-		else:
-			html = wrap_html(task, "li", "class=task")
+    category, task = extract_category_task(dir)
+    if category == "":
+        html = ""
+    else:
+        if task == None:
+            html = wrap_html(category, "h2")
+            html += "<ul>"
+        else:
+            html = wrap_html(task, "li", "class=task")
 
-	for child_dir in child_dirs:
-		if child_dir in ignored_list:
-			continue
+    for child_dir in child_dirs:
+        if child_dir in ignored_list:
+            continue
 
-		html += generate_task_list_html(P.join(dir, child_dir))
+        html += generate_task_list_html(P.join(dir, child_dir))
 
-		
-	if category != "" and task == None:
-		html += "</ul>"
-		html = wrap_html(html, "div", "class=task-list")
-	if category == "":
-		html = wrap_html(html, "div", "class=task-list-grid")
-	return html
+        
+    if category != "" and task == None:
+        html += "</ul>"
+        html = wrap_html(html, "div", "class=task-list")
+    if category == "":
+        html = wrap_html(html, "div", "class=task-list-grid")
+    return html
 
 
 
@@ -55,11 +56,11 @@ html = """\
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CSES Solutions Set</title>
-	<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSES Solutions Set</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
