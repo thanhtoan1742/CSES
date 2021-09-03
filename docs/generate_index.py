@@ -3,6 +3,7 @@ import os
 from os import path as P, walk
 
 
+GITHUB = "https://github.com/thanhtoan1742/CSES/tree/master"
 
 def wrap_html(text, tag, attributes = ""):
     return "<{0} {2}>{1}</{0}>".format(tag, text, attributes)
@@ -31,7 +32,8 @@ def generate_task_list_html(dir):
             html = wrap_html(category, "h2")
             html += "<ul>"
         else:
-            html = wrap_html(task, "li", "class=task")
+            html = wrap_html(task, "a", f"href='{GITHUB + '/' + category + '/' + task}' target=_blank")
+            html = wrap_html(html, "li", "class=task")
 
     for child_dir in child_dirs:
         if child_dir in ignored_list:
@@ -61,6 +63,7 @@ html = """\
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSES Solutions Set</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
 

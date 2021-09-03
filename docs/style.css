@@ -2,6 +2,15 @@
 	box-sizing: border-box;
 }
 
+*:link, *:visited {
+	color: blue;
+	text-decoration: none;
+}
+
+*:link:hover {
+	color: green;
+}
+
 body {
     font-family: verdana, sans-serif;
     color: #000;
@@ -21,10 +30,6 @@ h2 {
 	display: grid;
 	gap: 1rem;
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
-}
-
-.task-list:nth-child(odd) {
-	/* background-color: rgb(233, 233, 233); */
 }
 
 .task {
