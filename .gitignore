@@ -3,5 +3,4 @@
 *.exe
 makefile
 .vscode/
-/template.cpp
 main
